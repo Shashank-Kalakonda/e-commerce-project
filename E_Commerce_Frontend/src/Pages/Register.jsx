@@ -26,60 +26,22 @@ export default function Register() {
             body: JSON.stringify(formData)
         });
 
-        if (!response.ok) {
-            const error = await response.json();
-            alert(error.message);
-            return;
-        }
-
-        const message = await response.text();
-        alert(message);
-
-        setFormData({ name: "", email: "", password: "" });
+        const msg = await response.text();
+        alert(msg);
     };
 
     return (
         <div>
             <h1>Register</h1>
 
-            <form onSubmit={handleSubmit}>
+            <input name="name" placeholder="Name" onChange={handleChange} />
+            <br /><br />
+            <input name="email" placeholder="Email" onChange={handleChange} />
+            <br /><br />
+            <input name="password" type="password" placeholder="Password" onChange={handleChange} />
+            <br /><br />
 
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Enter Name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                />
-
-                <br /><br />
-
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Enter Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-
-                <br /><br />
-
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Enter Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-
-                <br /><br />
-
-                <button type="submit">Register</button>
-
-            </form>
+            <button onClick={handleSubmit}>Register</button>
         </div>
     );
 }

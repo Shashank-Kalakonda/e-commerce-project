@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+
+    const navigate = useNavigate();
 
     const [loginData, setLoginData] = useState({
         email: "",
@@ -26,46 +29,30 @@ export default function Login() {
         });
 
         if (!response.ok) {
-            const error = await response.json();
-            alert(error.message);
+            const error = await response.text();
+            alert(error);
             return;
         }
 
         const token = await response.text();
+
         localStorage.setItem("token", token);
 
         alert("Login Successful");
+
+        navigate("/home"); // 🔥 IMPORTANT
     };
 
     return (
         <div>
             <h1>Login</h1>
 
-            <form onSubmit={handleSubmit}>
+            <input name="email" placeholder="Email" onChange={handleChange} />
+            <br /><br />
+            <input name="password" type="password" placeholder="Password" onChange={handleChange} />
+            <br /><br />
 
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Enter Email"
-                    onChange={handleChange}
-                    required
-                />
-
-                <br /><br />
-
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Enter Password"
-                    onChange={handleChange}
-                    required
-                />
-
-                <br /><br />
-
-                <button type="submit">Login</button>
-
-            </form>
+            <button onClick={handleSubmit}>Login</button>
         </div>
     );
 }

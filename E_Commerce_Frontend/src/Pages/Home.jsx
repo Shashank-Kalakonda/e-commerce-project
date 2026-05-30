@@ -6,38 +6,22 @@ export default function Home() {
 
     useEffect(() => {
 
-        const fetchUser = async () => {
+        const token = localStorage.getItem("token");
 
-            const token = localStorage.getItem("token");
-
-            if (!token) {
-                console.log("No token found");
-                return;
+        fetch("http://localhost:8080/api/me", {
+            headers: {
+                Authorization: "Bearer " + token
             }
-
-            const response = await fetch("http://localhost:8080/api/me", {
-                headers: {
-                    Authorization: "Bearer " + token
-                }
-            });
-
-            // 🔥 IMPORTANT FIX
-            if (!response.ok) {
-                console.log("API failed or token invalid");
-                return;
-            }
-
-            const data = await response.json();
-            setUser(data);
-        };
-
-        fetchUser();
+        })
+        .then(res => res.json())
+        .then(data => setUser(data))
+        .catch(err => console.log(err));
 
     }, []);
 
     return (
         <div>
-            <h1>Home Page</h1>
+            <h1>Home</h1>
 
             {user ? (
                 <div>
